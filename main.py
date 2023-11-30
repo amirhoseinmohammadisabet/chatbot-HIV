@@ -1,6 +1,16 @@
 import json
 from difflib import get_close_matches
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import make_pipeline
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+
 
 
 def load_dataset(file_path):
@@ -8,12 +18,10 @@ def load_dataset(file_path):
         dataset = json.load(file)
     return dataset
 
-def get_response(question, dataset):
-    # Check for an exact match
+def get_response_standard(question, dataset):
     if question in dataset:
         return dataset[question]
     else:
-        # Use difflib to find close matches
         close_matches = get_close_matches(question, dataset.keys())
         if close_matches:
             closest_match = close_matches[0]
@@ -21,13 +29,43 @@ def get_response(question, dataset):
         else:
             return "I'm sorry, I don't have information on that topic."
 
-def generate_response_GPT(question, model, tokenizer):
-    input_text = f"Q: {question}\nA:"
-    input_ids = tokenizer.encode(input_text, return_tensors='pt')
-    output = model.generate(input_ids, max_length=100, num_beams=5, no_repeat_ngram_size=2, top_k=50, top_p=0.95, temperature=0.7)
-    response = tokenizer.decode(output[0], skip_special_tokens=True).replace("A:", "").strip()
-    return response
 
+def train_model(dataset):
+    questions = list(dataset.keys())
+    responses = list(dataset.values())
+    vectorizer = TfidfVectorizer()
+    while True:
+        chosen_model = input("which model you wish to use: ")
+        if chosen_model == 'svm':
+            classifier = SVC()
+            break
+        elif chosen_model == 'NB':
+            classifier = MultinomialNB()
+            break
+        elif chosen_model == 'RF':
+            classifier = RandomForestClassifier()
+            break
+        elif chosen_model == 'DT':
+            classifier = DecisionTreeClassifier()
+            break
+        elif chosen_model == 'knn':
+            classifier = KNeighborsClassifier()
+            break
+        elif chosen_model == 'GB':
+            classifier = GradientBoostingClassifier()
+            break
+        elif chosen_model == 'LR':
+            classifier = LogisticRegression()
+            break
+        else: print('just choose a model from the list')
+    model = make_pipeline(vectorizer, classifier)
+    model.fit(questions, responses)
+    return model
+
+
+def get_response_ML(question, model):
+    prediction = model.predict([question])[0]
+    return prediction
 
 
 def main():
@@ -35,31 +73,32 @@ def main():
     file_path = 'HIV_dataset.json'
     dataset = load_dataset(file_path)
 
-    # Example questions (you can add more)
 
-    model = GPT2LMHeadModel.from_pretrained('EleutherAI/gpt-neo-2.7B')
-    tokenizer = GPT2Tokenizer.from_pretrained('EleutherAI/gpt-neo-2.7B')
     flag = 0
     while True:
-        # questions
-        #     "What is HIV?",
-        #     "How is HIV transmitted?",
-        #     "Can HIV be cured?",
-        #     "Prevention of HIV",
         if not flag == 1:
             model_selector = input("which model do you want to use? ")
-            flag = 1
+            if model_selector:
+                flag = 1
+            else: flag = 0
         else:
-            if model_selector == 'gpt':
+            if model_selector == 'ML':
+                model = train_model(dataset)
                 question = input("ask about HIV: ")
-                response = generate_response_GPT(question, model, tokenizer)
+                response = get_response_ML(question, model)
                 print(f"Q: {question}\nA: {response}\n")
             elif model_selector == "standard":
                 question = input("ask about HIV: ")
-                response = get_response(question, dataset)
-                print(f"Q: {question}\nA: {response}\n")
-        # response = get_response(question, dataset)
-        # print(f"Q: {question}\nA: {response}\n")
+                if question == "exit":
+                    return
+                else:
+                    response = get_response_standard(question, dataset)
+                    print(f"Q: {question}\nA: {response}\n")
+            elif model_selector == 'exit':
+                return
+            else: pass
+
+
 
 
 if __name__ == "__main__":
