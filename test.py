@@ -1,24 +1,15 @@
 from chatterbot import ChatBot
-from chatterbot.trainers import ChatterBotCorpusTrainer
+from chatterbot.trainers import ListTrainer
 
-# Create a new chatbot
-chatbot = ChatBot('MyChatBot')
+# Create a new chat bot named Charlie
+chatbot = ChatBot('FreeBirdsBot')
 
-# Create a new trainer for the chatbot
-trainer = ChatterBotCorpusTrainer(chatbot)
+trainer = ListTrainer(chatbot)
 
-# Train the chatbot on English language data
-trainer.train('chatterbot.corpus.english')
+trainer.train(['Hi','Hello','How are you?','I am fine and You?','Greate','What are you Doing?','nothing just roaming around.'])
 
-# Your chatbot is ready to respond to messages
 while True:
-    user_input = input("You: ")
-    
-    # Exit the loop if the user types 'exit'
-    if user_input.lower() == 'exit':
-        break
-    
-    # Get the chatbot's response
-    response = chatbot.get_response(user_input)
-    
-    print(f"MyChatBot: {response}")
+	input_data = input("You- ")
+	response = chatbot.get_response(input_data)
+	print("FreeBirdsBot- ",response)
+

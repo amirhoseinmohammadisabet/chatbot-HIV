@@ -1,8 +1,16 @@
 {
     "What is HIV?": "HIV (Human Immunodeficiency Virus) is a virus that attacks the immune system...",
     "How is HIV transmitted?": "HIV is primarily transmitted through...",
-    "Can HIV be cured?": "Currently, there is no cure for HIV, but...",
-    "Prevention of HIV": "Preventive measures include..."
+    "Can HIV would be cured?": "Currently, there is no cure for HIV, but...",
+    "Prevention of HIV": "Preventive measures include...",
+    "What is HIV sickness?":	"HIV stands for Human Immunodeficiency Virus. It attacks the immune system, specifically CD4 cells (T cells), which help the immune system fight off infections.",
+    "How is HIV transmitted to another?":	"HIV is primarily transmitted through unprotected sexual intercourse with an infected person, sharing needles or syringes, and from an infected mother to her child during childbirth or breastfeeding. It can also be transmitted through blood transfusions or organ transplants from infected donors, although this is rare nowadays due to screening.",
+    "Can I get HIV from casual contact?":	"No, HIV is not spread through casual contact like shaking hands, hugging, or sharing food or drinks. It is not an airborne or waterborne virus.",
+    "What are the common ways HIV is NOT transmitted?":	"HIV is not transmitted through air, water, insect bites, sharing utensils, or casual contact like touching or kissing.",
+    "Can I get HIV from a mosquito bite?":	"No, HIV is not spread through mosquito bites or other insect vectors.",
+    "Can you get HIV from oral sex?":	"While the risk is lower than with unprotected vaginal or anal sex, there is still a risk of HIV transmission through oral sex, particularly if there are cuts or sores in the mouth.",
+    "How does HIV affect the body?":	"HIV weakens the immune system by destroying CD4 cells. As the immune system becomes compromised, the body becomes more susceptible to infections and certain cancers.",
+    "What is AIDS?":	"Acquired Immunodeficiency Syndrome (AIDS) is the final stage of HIV infection. It occurs when the immune system is severely damaged, and the person becomes vulnerable to opportunistic infections and certain cancers.",
+    "Can HIV be cured?":	"As of now, there is no cure for HIV, but it can be controlled with proper medical care, usually through a regimen of antiretroviral therapy (ART)."
 }
 
-    
