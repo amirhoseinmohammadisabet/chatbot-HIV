@@ -6,6 +6,5 @@ def main():
     dataset = models.load_dataset(file_path)
     models.heart(dataset)
 
-
 if __name__ == "__main__":
     main()

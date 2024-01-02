@@ -1,27 +1,42 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>Question and Answer App</title>
+    <title>HIV and AIDS</title>
 </head>
 <body>
     <div class="container">
-        <h1>Question and Answer App</h1>
+        <header>
+            <h1>HIV and AIDS Chatbot</h1>
+        </header>
 
-        <form action="{{ url_for('index') }}" method="post">
-            <label for="question">Your Question:</label>
-            <input type="text" name="question" id="question" required>
-            <button type="submit">Ask</button>
-        </form>
+        <section id="questionForm">
+            <h2>Ask any question about HIV and AIDS</h2>
+            <h3>Ive got all the answers</h3>
+            <form id="qaForm" action="{{ url_for('index') }}" method="post">
+                <label for="question">Your Question:</label>
+                <input type="text" name="question" id="question" required>
+                <button type="submit">Ask</button>
+            </form>
+        </section>
 
-        {% if question %}
-            <h2>Your Question:</h2>
-            <p>{{ question }}</p>
-            <h2>Answer:</h2>
-            <p>{{ answer }}</p>
-        {% endif %}
+        <section id="qaHistory">
+            <ul id="historyList">
+                {% for qa in qa_history %}
+                    <li>
+                        <h2>Your Question:</h2>
+                        <p>{{ qa[0] }}</p>
+                        <h2>Answer:</h2>
+                        <p>{{ qa[1] }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
     </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
