@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIV and AIDS</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            color: #008080;
+        }
+
+        #output {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        #history {
+            margin-top: 20px;
+        }
+
+        #inputBoxContainer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        #inputBox {
+            width: 60%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        #submitBtn {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #submitBtn:hover {
+            background-color: #45a049;
+        }
+
+        #historyList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        #historyList li {
+            margin-bottom: 5px;
+            padding: 5px;
+            background-color: #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HIV and AIDS Chatbot</h1>
+    <h2>Ask any question about HIV and AIDS</h2>
+    <h3>Ive got all the answers</h3>
+
+    <div id="output"></div>
+
+    <div id="history">
+        <h2>Your question:</h2>
+        <ul id="historyList"></ul>
+    </div>
+
+    <div id="inputBoxContainer">
+        <form onsubmit="processInput(); return false;">
+            <input type="text" id="inputBox" placeholder="Enter something..." required>
+            <button type="submit" id="submitBtn">Ask</button>
+        </form>
+    </div>
+
+    <script>
+        var inputHistory = [];
+
+        function processInput() {
+            var userInput = document.getElementById("inputBox").value;
+            var outputDiv = document.getElementById("output");
+            var historyList = document.getElementById("historyList");
+
+            inputHistory.push(userInput);
+
+            // Display the entered text in the output div
+            // outputDiv.innerHTML = "You entered: " + userInput;
+
+            // Display the input history
+            renderHistory();
+
+            // Clear the input box
+            document.getElementById("inputBox").value = "";
+        }
+
+        // Submit the form on Enter key press
+        document.getElementById("inputBox").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                processInput();
+            }
+        });
+
+        function renderHistory() {
+            var historyList = document.getElementById("historyList");
+            historyList.innerHTML = "";  // Clear previous history
+
+            // Display the input history in an unordered list
+            inputHistory.forEach(function(input) {
+                var listItem = document.createElement("li");
+                listItem.textContent = input;
+                historyList.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Question and Answer App</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Question and Answer App</h1>
+
+        <form action="{{ url_for('index') }}" method="post">
+            <label for="question">Your Question:</label>
+            <input type="text" name="question" id="question" required>
+            <button type="submit">Ask</button>
+        </form>
+
+        {% if question %}
+            <h2>Your Question:</h2>
+            <p>{{ question }}</p>
+            <h2>Answer:</h2>
+            <p>{{ answer }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
