@@ -79,7 +79,7 @@ def heart(dataset):
     while True:
         if not flag == 1:
             print("options are [ML] and [standard]")
-            model_selector = input("which model do you want to use? ").upper()
+            model_selector = input("which model do you want to use? ").lower()
             if model_selector:
                 flag = 1
             else: flag = 0
@@ -88,6 +88,7 @@ def heart(dataset):
                 model = train_model(dataset)
                 while True:
                     question = input("ask about HIV: ")
+                    question = question.lower()
                     response = get_response_ML(question, model)
                     print(f"Q: {question}\nA: {response}\n")
 

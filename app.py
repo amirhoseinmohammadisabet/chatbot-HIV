@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import models
-import json
+
 qa_history = []
 
 app = Flask(__name__)
