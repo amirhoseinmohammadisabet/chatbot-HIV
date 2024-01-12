@@ -118,22 +118,22 @@ def get_response_ML(question, model):
     return prediction
 
 def to_ui(dataset, ml):
-        if ml == 'RF':
-            questions = list(dataset.keys())
-            responses = list(dataset.values())
-            vectorizer = TfidfVectorizer()
-            classifier = RandomForestClassifier()          
-            model = make_pipeline(vectorizer, classifier)
-            x = model.fit(questions, responses)
-            return x
-        elif ml == 'DT':
-            questions = list(dataset.keys())
-            responses = list(dataset.values())
-            vectorizer = TfidfVectorizer()
-            classifier = DecisionTreeClassifier()
-            model = make_pipeline(vectorizer, classifier)
-            x= model.fit(questions, responses)
-            return x
+    if ml == 'RF':
+        questions = list(dataset.keys())
+        responses = list(dataset.values())
+        vectorizer = TfidfVectorizer()
+        classifier = RandomForestClassifier()          
+        model = make_pipeline(vectorizer, classifier)
+        x = model.fit(questions, responses)
+        return x
+    elif ml == 'DT':
+        questions = list(dataset.keys())
+        responses = list(dataset.values())
+        vectorizer = TfidfVectorizer()
+        classifier = DecisionTreeClassifier()
+        model = make_pipeline(vectorizer, classifier)
+        x= model.fit(questions, responses)
+        return x
 
 
 
@@ -170,15 +170,13 @@ def heart(dataset):
             else: flag = 0
         else:
             if model_selector == 'ML':
-                model = to_ui(dataset, "ANN")
+                model = train_model(dataset)
                 while True:
                     question = input("ask about HIV: ")
                     question = question.lower()
-                    # response = get_response_ML(question, model)
-                    # print(f"Q: {question}\nA: {response}\n")
-                    
-                    response = model.predict([question])[0]
+                    response = get_response_ML(question, model)
                     print(f"Q: {question}\nA: {response}\n")
+                    
 
             elif model_selector == "STANDARD":
                 question = input("ask about HIV: ")
