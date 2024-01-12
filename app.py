@@ -16,7 +16,7 @@ def index():
         user_question = request.form['question']
         answer = models.get_response_standard(user_question, dataset)
 
-        qa_history.append((user_question, answer))
+        qa_history.insert(0, (user_question, answer))
 
     return render_template('index.html', qa_history=qa_history)
 
