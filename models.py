@@ -38,22 +38,22 @@ def select_ml_algorithm():
         chosen_model = input("which model you wish to use: ").upper()
         if chosen_model == "ANN":
             classifier = MLPClassifier(
-                hidden_layer_sizes=(100,),  # Adjust the number of neurons and layers as needed
-                activation='relu',           # or 'tanh', 'logistic'
-                solver='adam',               # or 'sgd', 'lbfgs'
-                alpha=0.0001,                # L2 regularization term
-                learning_rate='constant',    # or 'invscaling', 'adaptive'
-                max_iter=200,                 # Increase if needed
-                batch_size='auto'            # or a specific batch size for 'sgd' or 'adam'
+                hidden_layer_sizes=(100,),  
+                activation='relu',           
+                solver='adam',               
+                alpha=0.0001,                
+                learning_rate='constant',    
+                max_iter=200,              
+                batch_size='auto'          
             )
             return classifier
 
         elif chosen_model == 'SVM':
             classifier = SVC(
                 C=1.0,
-                kernel='rbf',  # or 'linear', 'poly', 'sigmoid'
-                degree=3,      # relevant if kernel is 'poly'
-                gamma='scale'  # or 'auto' or a specific value; relevant for 'rbf', 'poly', 'sigmoid'
+                kernel='rbf', 
+                degree=3,     
+                gamma='scale'  
             )
             return classifier
         elif chosen_model == 'NB':
@@ -62,24 +62,24 @@ def select_ml_algorithm():
         elif chosen_model == 'RF':
             classifier = RandomForestClassifier(
                 n_estimators=100,
-                criterion='gini',  # or 'entropy'
+                criterion='gini', 
             )
             return classifier
         elif chosen_model == 'DT':
             classifier = DecisionTreeClassifier(
-                criterion='gini',  # or 'entropy'
-                max_depth=None,     # Experiment with different values
+                criterion='gini', 
+                max_depth=None,     
                 min_samples_split=2,
                 min_samples_leaf=1,
-                max_features=None   # or 'sqrt', 'log2', an integer, etc.
+                max_features='sqrt' 
             )
             return classifier
         elif chosen_model == 'KNN':
             classifier = KNeighborsClassifier(
                 n_neighbors=5,
-                weights='uniform',  # or 'distance'
-                algorithm='auto',   # or 'ball_tree', 'kd_tree', 'brute'
-                p=2  # Euclidean distance
+                weights='uniform',  
+                algorithm='auto',   
+                p=2  
             )
             return classifier
         elif chosen_model == 'GB':
