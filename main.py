@@ -1,8 +1,6 @@
 import models
 
 
-# rhgffegge
-
 def main():
     file_path = 'HIV_dataset.json'
     dataset = models.load_dataset(file_path)

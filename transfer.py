@@ -23,7 +23,7 @@ def excel_to_json(excel_file, json_file):
         json.dump(data_dict, json_file, indent=4)
 
 
-excel_file_path = 'HIV-chatbot-data.xlsx'
-json_file_path = 'HIV-chatbot-data.json'
+excel_file_path = 'Data/diagnosis.xlsx'
+json_file_path = 'Data/diagnosis.json'
 
 excel_to_json(excel_file_path, json_file_path)

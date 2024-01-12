@@ -9,7 +9,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.neural_network import MLPClassifier
 
 
 
@@ -33,28 +34,71 @@ def select_ml_algorithm():
     while True:
         print("please select one algorithm from all these options:")
         print("[SVM], [Naive Beyse], [Random Forest], [Decision Tree]")
-        print("[KNN], [Gradient Boosting], [Logistic Regression]")
+        print("[KNN], [Gradient Boosting], [Logistic Regression], [ANN]")
         chosen_model = input("which model you wish to use: ").upper()
-        if chosen_model == 'SVM':
-            classifier = SVC()
+        if chosen_model == "ANN":
+            classifier = MLPClassifier(
+                hidden_layer_sizes=(100,),  # Adjust the number of neurons and layers as needed
+                activation='relu',           # or 'tanh', 'logistic'
+                solver='adam',               # or 'sgd', 'lbfgs'
+                alpha=0.0001,                # L2 regularization term
+                learning_rate='constant',    # or 'invscaling', 'adaptive'
+                max_iter=200,                 # Increase if needed
+                batch_size='auto'            # or a specific batch size for 'sgd' or 'adam'
+            )
+            return classifier
+
+        elif chosen_model == 'SVM':
+            classifier = SVC(
+                C=1.0,
+                kernel='rbf',  # or 'linear', 'poly', 'sigmoid'
+                degree=3,      # relevant if kernel is 'poly'
+                gamma='scale'  # or 'auto' or a specific value; relevant for 'rbf', 'poly', 'sigmoid'
+            )
             return classifier
         elif chosen_model == 'NB':
-            classifier = MultinomialNB()
+            classifier = MultinomialNB(alpha=1.0)
             return classifier
         elif chosen_model == 'RF':
-            classifier = RandomForestClassifier()
+            classifier = RandomForestClassifier(
+                n_estimators=100,
+                criterion='gini',  # or 'entropy'
+            )
             return classifier
         elif chosen_model == 'DT':
-            classifier = DecisionTreeClassifier()
+            classifier = DecisionTreeClassifier(
+                criterion='gini',  # or 'entropy'
+                max_depth=None,     # Experiment with different values
+                min_samples_split=2,
+                min_samples_leaf=1,
+                max_features=None   # or 'sqrt', 'log2', an integer, etc.
+            )
             return classifier
         elif chosen_model == 'KNN':
-            classifier = KNeighborsClassifier()
+            classifier = KNeighborsClassifier(
+                n_neighbors=5,
+                weights='uniform',  # or 'distance'
+                algorithm='auto',   # or 'ball_tree', 'kd_tree', 'brute'
+                p=2  # Euclidean distance
+            )
             return classifier
         elif chosen_model == 'GB':
-            classifier = GradientBoostingClassifier()
+            classifier = GradientBoostingClassifier(
+                n_estimators=100,
+                learning_rate=0.1,
+                max_depth=3,
+                min_samples_split=2,
+                min_samples_leaf=1,
+                subsample=1.0
+            )
             return classifier
         elif chosen_model == 'LR':
-            classifier = LogisticRegression()
+            classifier = LogisticRegression(
+                C=1.0,
+                penalty='l2',
+                solver='lbfgs',
+                max_iter=100
+            )
             return classifier
         else:
             print('just choose a model from the list')
@@ -73,13 +117,34 @@ def get_response_ML(question, model):
     prediction = model.predict([question])[0]
     return prediction
 
+def eval(dataset):
+    questions = list(dataset.keys())
+    responses = list(dataset.values())
+
+    vectorizer = TfidfVectorizer()
+    X_vectorized = vectorizer.fit_transform(questions)
+    model = select_ml_algorithm()
+    model.fit(X_vectorized, responses)
+
+    y_pred = model.predict(X_vectorized)
+
+    accuracy = accuracy_score(responses, y_pred)
+    print(f"Accuracy: {accuracy * 100:.2f}%")
+    precision = precision_score(responses, y_pred, average='weighted',zero_division=1)
+    recall = recall_score(responses, y_pred, average='weighted',zero_division=1)
+    f1 = f1_score(responses, y_pred, average='weighted')
+
+    print("Other Evaluation Metrics:")
+    print(f"Precision: {precision*100:.4f}")
+    print(f"Recall: {recall*100:.4f}")
+    print(f"F1-Score: {f1*100:.4f}")
 
 def heart(dataset):
     flag = 0
     while True:
         if not flag == 1:
-            print("options are [ML] and [standard]")
-            model_selector = input("which model do you want to use? ").lower()
+            print("options are [ML] and [standard] and [eval]")
+            model_selector = input("which model do you want to use? ").upper()
             if model_selector:
                 flag = 1
             else: flag = 0
@@ -99,6 +164,9 @@ def heart(dataset):
                 else:
                     response = get_response_standard(question, dataset)
                     print(f"Q: {question}\nA: {response}\n")
+            elif model_selector == "EVAL":
+                eval(dataset)
+                return
             elif model_selector == 'exit':
                 return
             else:
