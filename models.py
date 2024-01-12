@@ -117,6 +117,26 @@ def get_response_ML(question, model):
     prediction = model.predict([question])[0]
     return prediction
 
+def to_ui(dataset, ml):
+        if ml == 'RF':
+            questions = list(dataset.keys())
+            responses = list(dataset.values())
+            vectorizer = TfidfVectorizer()
+            classifier = RandomForestClassifier()          
+            model = make_pipeline(vectorizer, classifier)
+            x = model.fit(questions, responses)
+            return x
+        elif ml == 'DT':
+            questions = list(dataset.keys())
+            responses = list(dataset.values())
+            vectorizer = TfidfVectorizer()
+            classifier = DecisionTreeClassifier()
+            model = make_pipeline(vectorizer, classifier)
+            x= model.fit(questions, responses)
+            return x
+
+
+
 def eval(dataset):
     questions = list(dataset.keys())
     responses = list(dataset.values())
@@ -150,15 +170,19 @@ def heart(dataset):
             else: flag = 0
         else:
             if model_selector == 'ML':
-                model = train_model(dataset)
+                model = to_ui(dataset, "ANN")
                 while True:
                     question = input("ask about HIV: ")
                     question = question.lower()
-                    response = get_response_ML(question, model)
+                    # response = get_response_ML(question, model)
+                    # print(f"Q: {question}\nA: {response}\n")
+                    
+                    response = model.predict([question])[0]
                     print(f"Q: {question}\nA: {response}\n")
 
             elif model_selector == "STANDARD":
                 question = input("ask about HIV: ")
+                question = question.lower()
                 if question == "exit":
                     return
                 else:
@@ -172,3 +196,4 @@ def heart(dataset):
             else:
                 print("just select from options")
                 flag = 0
+

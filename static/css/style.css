@@ -20,6 +20,7 @@ header {
 
 #questionForm {
     margin-bottom: 20px;
+    
 }
 
 #qaForm {
@@ -39,6 +40,12 @@ button {
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
+}
+
+input{
+    width: 70%;
+    height: 30px;
+    margin-right: 10px;
 }
 
 button:hover {
