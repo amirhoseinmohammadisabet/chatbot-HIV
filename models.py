@@ -138,9 +138,7 @@ def to_ui(dataset, ml):
 
 
 def eval(dataset):
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-    from sklearn.metrics import confusion_matrix, classification_report
+
     questions = list(dataset.keys())
     responses = list(dataset.values())
 
@@ -161,13 +159,7 @@ def eval(dataset):
     print(f"Precision: {precision*100:.4f}")
     print(f"Recall: {recall*100:.4f}")
     print(f"F1-Score: {f1*100:.4f}")
-    cm = confusion_matrix(responses, y_pred)
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", cbar=False)
-    plt.title('Confusion Matrix')
-    plt.xlabel('Predicted')
-    plt.ylabel('True')
-    plt.show()
+
 
 def heart(dataset):
     flag = 0
